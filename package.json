@@ -25,14 +25,13 @@
   "lint-staged": {
     "*.js": [
       "./node_modules/.bin/prettier --write",
-      "./node_modules/.bin/eslint",
       "git add"
     ]
   },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
-    "eslint": "^7.4.0",
+    "eslint": "^6.6.0",
     "express": "^4.17.1",
     "mongoose": "^5.9.23"
   },
