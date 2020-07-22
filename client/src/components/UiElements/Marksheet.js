@@ -1,21 +1,38 @@
 import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 import {Skeleton} from 'antd';
 import './Marksheet.css';
 
-function Marksheet() {
+function Marksheet(props) {
   const [student, setStudent] = useState({});
-  const [result, setResult] = useState(false);
+  const [result, setResult] = useState({subjects: []});
+  const [resultLoading, setResultLoading] = useState(true);
 
   // cdm
   useEffect(() => {
-    const std = {
-      name: 'Kushagra Johari',
-      branch: 'IT',
-      roll: 19315,
-    };
+    const {roll, sem} = props.match.params;
+
+    axios
+      .get(`/api/student/${roll}`)
+      .then(res => {
+        setStudent(res.data);
+        console.log(res.data);
+      })
+      .catch(err => console.log('unable to fetch student', err));
+
+    // get result
+    axios
+      .get(`/api/result/${sem}/${roll}`)
+      .then(res => {
+        setResult(res.data);
+        setResultLoading(false);
+        console.log(res.data);
+      })
+      .catch(err => console.log('unable to fetch result', err));
+
     // fetching data
-    setTimeout(() => setStudent(std), 2000);
-    setTimeout(() => setResult(true), 4000);
+    // setTimeout(() => setStudent(std), 2000);
+    // setTimeout(() => setResult(true), 4000);
   }, []);
   const {name, branch, roll} = student;
   return (
@@ -28,46 +45,37 @@ function Marksheet() {
       <hr />
       <Skeleton loading={!result} paragraph={{rows: 0}}>
         {' '}
-        <h4 style={{textAlign: 'center'}}>Semester X</h4>
+        <h4 style={{textAlign: 'center'}}>Semester {result.semester}</h4>
       </Skeleton>
       <hr />
-      <Skeleton loading={!result} paragraph={{rows: 5}}>
+      <Skeleton loading={resultLoading} paragraph={{rows: 5}}>
         <table>
-          <tr>
-            <th>Sub Code</th>
-            <th>Sub Names</th>
-            <th>Grade</th>
-          </tr>
-          <tr>
-            <td>xxxxxx</td>
-            <td>xxxxxx</td>
-            <td>x</td>
-          </tr>
-          <tr>
-            <td>xxxxxx</td>
-            <td>xxxxxx</td>
-            <td>x</td>
-          </tr>
-          <tr>
-            <td>xxxxxx</td>
-            <td>xxxxxx</td>
-            <td>x</td>
-          </tr>
-          <tr>
-            <td>xxxxxx</td>
-            <td>xxxxxx</td>
-            <td>x</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td>
-              <br />
-              SGPA:9.00
-              <br />
-              CGPA:8.87
-            </td>
-          </tr>
+          <tbody>
+            <tr>
+              <th>Sub Code</th>
+              <th>Sub Names</th>
+              <th>Grade</th>
+            </tr>
+            {result.subjects.map((sub, i) => {
+              return (
+                <tr key={i}>
+                  <td>{sub.subCode}</td>
+                  <td>{sub.subName}</td>
+                  <td>{sub.subGrade}</td>
+                </tr>
+              );
+            })}
+            <tr>
+              <td></td>
+              <td></td>
+              <td>
+                <br />
+                SGPA: {result.sgpa}
+                <br />
+                CGPA: {result.cgpa}
+              </td>
+            </tr>
+          </tbody>
         </table>
       </Skeleton>
     </div>

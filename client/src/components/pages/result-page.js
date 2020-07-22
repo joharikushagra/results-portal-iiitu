@@ -6,7 +6,7 @@ import Avatar from '../UiElements/avatar';
 import Marksheet from '../UiElements/Marksheet';
 import {Link} from 'react-router-dom';
 
-function ResultPage() {
+function ResultPage(props) {
   const [searchDisplay, setSearchDisplay] = useState(true);
   const {Header, Content, Footer} = Layout;
   const {Search} = Input;
@@ -54,7 +54,7 @@ function ResultPage() {
                 <Switch defaultChecked onChange={onChange} style={{marginLeft: '5px'}} />
               </Breadcrumb>
             </div>
-            <Marksheet />
+            <Marksheet {...props} />
           </div>
         </Content>
         <Button className="btn-prev-result" type="primary" size="large">
