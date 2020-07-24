@@ -1,15 +1,29 @@
 const express = require('express');
 const router = express.Router();
 const Result = require('../models/Result');
+const Student = require('../models/Student');
+const auth = require('../middlewares/auth');
 
 //@result GET
-router.get('/:sem/:roll', (req, res) => {
+router.get('/:sem/:roll', auth, async (req, res) => {
   const {roll, sem} = req.params;
-  Result.find({studentRoll: roll}).then(results => {
-    results.map(result =>
-      result.semester === sem ? res.json(result) : res.json({msg: 'result not found'}),
-    );
-  });
+  // get current logged in user
+  const student = await Student.findOne({roll: roll});
+
+  if (!student) return res.status(500).json({msg: 'Student not found.'});
+  // logged in student == requesting roll no student
+  else if (student._id == req.user.id) {
+    // find the result of the student
+    Result.find({studentRoll: roll})
+      .then(results => {
+        // console.log(results)
+        if (results.length < 1) return res.json({msg: 'Result not found'});
+        results.map(result => (result.semester === sem ? res.json(result) : false));
+      })
+      .catch(err => res.json({msg: err.message}));
+  } else {
+    res.status(500).json({msg: 'You are not currently authorized for this request'});
+  }
 });
 
 //@ result POST

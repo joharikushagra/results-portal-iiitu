@@ -1,12 +1,29 @@
 import React from 'react';
+import axios from 'axios';
 import './login.css';
-import {Typography, Form, Input, Button, Checkbox} from 'antd';
+import {Typography, Form, Input, Button, notification} from 'antd';
 import {UserOutlined, LockOutlined} from '@ant-design/icons';
 import logoHead from './downloaded2.png';
 
-const NormalLoginForm = () => {
+const NormalLoginForm = props => {
   const onFinish = values => {
-    console.log('Received values of form: ', values);
+    // console.log('Received values of form: ', values);
+    axios
+      .post('/api/student/login/', {email: values.username, password: values.password})
+      .then(res => {
+        // console.log(res.data)
+        if (res.data.token) {
+          props.history.replace(`/result/2/${res.data.student.roll}`);
+          localStorage.setItem('auth-token', res.data.token);
+          localStorage.setItem('student', JSON.stringify(res.data.student));
+        }
+      })
+      .catch(err => {
+        notification['error']({
+          message: 'Authentication Failed',
+          description: 'INVALID CREDENTIALS',
+        });
+      });
   };
 
   const {Title} = Typography;
@@ -57,12 +74,7 @@ const NormalLoginForm = () => {
             />
           </Form.Item>
           <Form.Item>
-            <Button
-              type="danger"
-              htmlType="submit"
-              href="/result/:id"
-              className="login-form-button"
-            >
+            <Button type="danger" htmlType="submit" className="login-form-button">
               Log in
             </Button>
           </Form.Item>
@@ -71,11 +83,7 @@ const NormalLoginForm = () => {
               <Checkbox>Remember me</Checkbox>
             </Form.Item> */}
 
-            <a
-              style={{color: 'white', float: 'left'}}
-              className="login-form-forgot"
-              href="/login/forgot"
-            >
+            <a style={{color: 'white', float: 'left'}} className="login-form-forgot" href="#">
               Forgot password?
             </a>
           </Form.Item>

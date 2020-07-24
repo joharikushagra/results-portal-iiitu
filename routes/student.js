@@ -3,6 +3,7 @@ const router = express.Router();
 const Student = require('../models/Student');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const auth = require('../middlewares/auth');
 
 //@student GET
 router.get('/:roll', (req, res) => {
@@ -79,8 +80,10 @@ router.post('/login', (req, res) => {
             res.json({
               token,
               student: {
+                name: student.name,
+                roll: student.roll,
                 email: student.email,
-                password: student.password,
+                public: student.public,
               },
             });
           },

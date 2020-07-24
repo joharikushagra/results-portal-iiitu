@@ -7,13 +7,15 @@ function Marksheet(props) {
   const [student, setStudent] = useState({});
   const [result, setResult] = useState({subjects: []});
   const [resultLoading, setResultLoading] = useState(true);
+  const [error, setError] = useState('');
 
   // cdm
   useEffect(() => {
     const {roll, sem} = props.match.params;
-
+    const token = localStorage.getItem('auth-token');
+    const currentStudent = JSON.parse(localStorage.getItem('student'));
     axios
-      .get(`/api/student/${roll}`)
+      .get(`/api/student/${currentStudent.roll}`)
       .then(res => {
         setStudent(res.data);
         console.log(res.data);
@@ -21,14 +23,21 @@ function Marksheet(props) {
       .catch(err => console.log('unable to fetch student', err));
 
     // get result
-    axios
-      .get(`/api/result/${sem}/${roll}`)
+    axios({
+      method: 'get',
+      url: `/api/result/${sem}/${roll}`,
+      headers: {'x-auth-token': token},
+    })
       .then(res => {
         setResult(res.data);
-        setResultLoading(false);
+        setError('');
         console.log(res.data);
       })
-      .catch(err => console.log('unable to fetch result', err));
+      .catch(err => {
+        setResultLoading(false);
+        setError('Something Went Wrong Or you Tried to be oversmart');
+        console.log('unable to fetch result', err);
+      });
 
     // fetching data
     // setTimeout(() => setStudent(std), 2000);
@@ -48,7 +57,7 @@ function Marksheet(props) {
         <h4 style={{textAlign: 'center'}}>Semester {result.semester}</h4>
       </Skeleton>
       <hr />
-      <Skeleton loading={resultLoading} paragraph={{rows: 5}}>
+      <Skeleton loading={!resultLoading} paragraph={{rows: 5}}>
         <table>
           <tbody>
             <tr>
@@ -56,6 +65,13 @@ function Marksheet(props) {
               <th>Sub Names</th>
               <th>Grade</th>
             </tr>
+            {
+              <tr>
+                <td></td>
+                <td>{error}</td>
+                <td></td>
+              </tr>
+            }
             {result.subjects.map((sub, i) => {
               return (
                 <tr key={i}>

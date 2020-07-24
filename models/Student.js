@@ -22,6 +22,10 @@ const StudentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  public: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model('student', StudentSchema);
