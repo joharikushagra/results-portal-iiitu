@@ -21,4 +21,4 @@ function avatar() {
   );
 }
 
-export default Avatar;
+export default avatar;

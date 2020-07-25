@@ -1,9 +1,9 @@
 import React from 'react';
-import HomePage from './components/pages/home-page';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import Login from './components/pages/login';
-import ForgotPwd from './components/pages/forgot-pwd';
-import ResultPage from './components/pages/result-page';
+import HomePage from './components/pages/home/home-page';
+import Login from './components/pages/login/login';
+import ForgotPwd from './components/pages/forgot-pwd/forgot-pwd';
+import ResultPage from './components/pages/result/result-page';
 function App() {
   return (
     <Router>

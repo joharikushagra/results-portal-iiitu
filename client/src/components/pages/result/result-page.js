@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import './result-page.css';
 import {Input, Layout, Breadcrumb, Switch, Button, Dropdown, Menu} from 'antd';
-import logo from './downloaded2.png';
-import Avatar from '../UiElements/avatar';
-import Marksheet from '../UiElements/Marksheet';
+import logo from '../../../images/downloaded2.png';
+import Avatar from '../../UiElements/avatar';
+import Marksheet from '../../UiElements/Marksheet/Marksheet';
 import {Link} from 'react-router-dom';
 
 function ResultPage(props) {
@@ -14,9 +14,6 @@ function ResultPage(props) {
   useEffect(() => {
     const std = JSON.parse(localStorage.getItem('student'));
     setStudent(std);
-    // setPublicToggle(std.public);
-    // setSearchDisplay(std.public)
-    // console.log(std)
   }, []);
 
   const {Header, Content, Footer} = Layout;
@@ -51,7 +48,7 @@ function ResultPage(props) {
       <Layout className="layout">
         <Header className="navbar">
           <div className="logo">
-            <img src={logo} id="navbar-logo" />
+            <img src={logo} id="navbar-logo" alt="IIIT UNA" />
           </div>
           <div className="nav-links">
             {searchDisplay && (

@@ -1,8 +1,8 @@
 import React from 'react';
-import './login.css';
-import {Typography, Form, Input, Button, Checkbox} from 'antd';
+import '../login/login.css';
+import {Typography, Form, Input, Button} from 'antd';
 import {UserOutlined, LockOutlined} from '@ant-design/icons';
-import logo from './downloaded2.png';
+import logo from '../../../images/downloaded2.png';
 
 const NormalLoginForm = () => {
   const onFinish = values => {
@@ -13,7 +13,7 @@ const NormalLoginForm = () => {
     <React.Fragment>
       <div className="login">
         <div className="header">
-          <img src={logo} className="logoHead" />
+          <img src={logo} className="logoHead" alt="IIIT UNA" />
           <Title level={3} className="heading">
             An Institute Of National Importance Under MHRD
           </Title>

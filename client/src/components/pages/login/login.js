@@ -3,7 +3,7 @@ import axios from 'axios';
 import './login.css';
 import {Typography, Form, Input, Button, notification} from 'antd';
 import {UserOutlined, LockOutlined} from '@ant-design/icons';
-import logoHead from './downloaded2.png';
+import logoHead from '../../../images/downloaded2.png';
 
 const NormalLoginForm = props => {
   const onFinish = values => {
@@ -31,7 +31,7 @@ const NormalLoginForm = props => {
     <React.Fragment>
       <div className="login">
         <div className="header">
-          <img src={logoHead} className="logoHead" />
+          <img src={logoHead} className="logoHead" alt="IIIT UNA" />
           <Title level={3} className="heading">
             An Institute Of National Importance Under MHRD
           </Title>
@@ -83,7 +83,7 @@ const NormalLoginForm = props => {
               <Checkbox>Remember me</Checkbox>
             </Form.Item> */}
 
-            <a style={{color: 'white', float: 'left'}} className="login-form-forgot" href="#">
+            <a style={{color: 'white', float: 'left'}} className="login-form-forgot" href="/forgot">
               Forgot password?
             </a>
           </Form.Item>

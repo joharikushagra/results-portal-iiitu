@@ -42,7 +42,7 @@ function Marksheet(props) {
     // fetching data
     // setTimeout(() => setStudent(std), 2000);
     // setTimeout(() => setResult(true), 4000);
-  }, []);
+  }, [props.match.params]);
   const {name, branch, roll} = student;
   return (
     <div>
