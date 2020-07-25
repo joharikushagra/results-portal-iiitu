@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import './result-page.css';
-import {Input, Layout, Breadcrumb, Switch, Button, Dropdown, Menu} from 'antd';
+import {Input, Layout, Switch, Button, Dropdown, Menu, Avatar} from 'antd';
 import logo from '../../../images/downloaded2.png';
-import Avatar from '../../UiElements/avatar';
 import Marksheet from '../../UiElements/Marksheet/Marksheet';
 import {Link} from 'react-router-dom';
 
@@ -59,7 +58,7 @@ function ResultPage(props) {
               />
             )}
             <Dropdown placement="bottomCenter" overlay={logout}>
-              <Link className="ant-dropdown-link" onClick={e => onLogout}>
+              <Link to="/logout" className="ant-dropdown-link" onClick={e => onLogout}>
                 <Avatar size={40} style={{backgroundColor: '#3726A6'}}>
                   {student.name[0]}
                   {student.name.split(' ')[1] ? student.name.split(' ')[1][0] : ''}
@@ -72,10 +71,10 @@ function ResultPage(props) {
         <Content style={{padding: '0 50px'}}>
           <div className="site-layout-content">
             <div className="public">
-              <Breadcrumb className="public-btn">
+              <div className="public-btn">
                 <strong>Public Result</strong>
                 <Switch checked={publicToggle} onChange={onChange} style={{marginLeft: '5px'}} />
-              </Breadcrumb>
+              </div>
             </div>
             <Marksheet {...props} />
           </div>

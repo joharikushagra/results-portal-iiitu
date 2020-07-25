@@ -6,7 +6,7 @@ import './Marksheet.css';
 function Marksheet(props) {
   const [student, setStudent] = useState({});
   const [result, setResult] = useState({subjects: []});
-  const [resultLoading, setResultLoading] = useState(true);
+  const [resultLoading, setResultLoading] = useState(false);
   const [error, setError] = useState('');
 
   // cdm
@@ -14,11 +14,12 @@ function Marksheet(props) {
     const {roll, sem} = props.match.params;
     const token = localStorage.getItem('auth-token');
     const currentStudent = JSON.parse(localStorage.getItem('student'));
+    setResultLoading(true);
     axios
       .get(`/api/student/${currentStudent.roll}`)
       .then(res => {
         setStudent(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch(err => console.log('unable to fetch student', err));
 
@@ -31,12 +32,13 @@ function Marksheet(props) {
       .then(res => {
         setResult(res.data);
         setError('');
-        console.log(res.data);
+        setResultLoading(false);
+        // console.log(res.data);
       })
       .catch(err => {
         setResultLoading(false);
         setError('Something Went Wrong Or you Tried to be oversmart');
-        console.log('unable to fetch result', err);
+        console.log('unable to fetch result');
       });
 
     // fetching data
@@ -57,7 +59,7 @@ function Marksheet(props) {
         <h4 style={{textAlign: 'center'}}>Semester {result.semester}</h4>
       </Skeleton>
       <hr />
-      <Skeleton loading={!resultLoading} paragraph={{rows: 5}}>
+      <Skeleton loading={resultLoading} paragraph={{rows: 5}}>
         <table>
           <tbody>
             <tr>
