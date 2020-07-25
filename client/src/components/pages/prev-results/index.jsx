@@ -15,7 +15,7 @@ export default function PrevResults({history}) {
     const token = localStorage.getItem('auth-token');
 
     Axios({
-      url: `/api/result/getAll/student/${std.roll}`,
+      url: `/api/result/getAll/${std.roll}`,
       method: 'get',
       headers: {'x-auth-token': token},
     })
@@ -39,7 +39,7 @@ export default function PrevResults({history}) {
         <div className="site-layout-content">
           <Typography.Title level={3}>All Previous Results</Typography.Title>
           <Divider dashed />
-          <Skeleton loading={loading}>
+          {/* <Skeleton loading={loading}> */}
             <List
               style={{width: '50vw', margin: 'auto', padding: '0 24px'}}
               size="large"
@@ -56,7 +56,7 @@ export default function PrevResults({history}) {
                 </List.Item>
               )}
             />
-          </Skeleton>
+          {/* </Skeleton> */}
           <br />
           <Button
             size="large"

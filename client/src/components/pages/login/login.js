@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import axios from 'axios';
 import './login.css';
 import {Typography, Form, Input, Button, notification} from 'antd';
 import {UserOutlined, LockOutlined} from '@ant-design/icons';
 import logoHead from '../../../images/downloaded2.png';
+import {StoreContext} from '../../../Context/Store';
 
 const NormalLoginForm = props => {
+  const store = useContext(StoreContext);
+
   const onFinish = values => {
     // console.log('Received values of form: ', values);
     axios
@@ -13,12 +16,17 @@ const NormalLoginForm = props => {
       .then(res => {
         // console.log(res.data)
         if (res.data.token) {
-          props.history.replace(`/result/2/${res.data.student.roll}`);
-          localStorage.setItem('auth-token', res.data.token);
+          // localStorage.setItem('auth-token', res.data.token);
+          console.log(store);
           localStorage.setItem('student', JSON.stringify(res.data.student));
+          store.updateToken(res.data.token);
+          store.setStudent(res.data.student);
+          console.log(store);
+          props.history.replace(`/result/prev/`);
         }
       })
       .catch(err => {
+        console.log(err);
         notification['error']({
           message: 'Authentication Failed',
           description: 'INVALID CREDENTIALS',

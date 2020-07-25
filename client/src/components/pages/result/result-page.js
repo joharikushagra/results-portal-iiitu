@@ -1,14 +1,18 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import './result-page.css';
 import {Input, Layout, Switch, Button, Dropdown, Menu, Avatar} from 'antd';
 import logo from '../../../images/downloaded2.png';
 import Marksheet from '../../UiElements/Marksheet/Marksheet';
 import {Link} from 'react-router-dom';
+import {StoreContext} from '../../../Context/Store';
 
 function ResultPage(props) {
   const [searchDisplay, setSearchDisplay] = useState(false);
   const [student, setStudent] = useState({name: ''});
   const [publicToggle, setPublicToggle] = useState(false);
+
+  const store = useContext(StoreContext);
+  console.log(store);
 
   useEffect(() => {
     const std = JSON.parse(localStorage.getItem('student'));
@@ -37,8 +41,10 @@ function ResultPage(props) {
 
   const onLogout = e => {
     e.preventDefault();
-    localStorage.removeItem('auth-token');
-    localStorage.removeItem('student');
+    store.setIsAuthnticated(false);
+    store.updateToken('');
+    store.setStudent({});
+    localStorage.setItem('student', '');
     props.history.replace('/');
   };
 

@@ -1,7 +1,8 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { Layout, Menu, Input, Dropdown, Avatar} from 'antd';
 import {Link} from 'react-router-dom';
 import logo from '../../../images/downloaded2.png';
+import {StoreContext} from '../../../Context/Store';
 
 const {Header} = Layout;
 const {Search} = Input;
@@ -14,7 +15,9 @@ const logout = (
   </Menu>
 );
 
+
 export default function CustomHeader({searchDisplay = false, onLogout, student = {name: '@'}}) {
+  const storeContext = useContext(StoreContext);
   return (
     <Header className="navbar">
     <div className="logo">

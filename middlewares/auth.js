@@ -9,7 +9,7 @@ function auth(req, res, next) {
     }
     const decodedToken = jwt.verify(token, require('../config/keys').jwtKey);
     if (!decodedToken) {
-      return res.status(501).json({msg: 'could not find the token'});
+      return res.status(403).json({msg: 'could not find the token'});
     }
 
     req.user = decodedToken;
@@ -19,7 +19,7 @@ function auth(req, res, next) {
     if (error.name == 'TokenExpiredError') {
       return res.status(403).json({msg: 'Auth token invalid please login again.'});
     }
-    return res.status(500).json({msg: 'Something went wrong'});
+    return res.status(403).json({msg: 'Something went wrong'});
   }
 }
 
