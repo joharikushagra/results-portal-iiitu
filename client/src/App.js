@@ -4,6 +4,7 @@ import HomePage from './components/pages/home/home-page';
 import Login from './components/pages/login/login';
 import ForgotPwd from './components/pages/forgot-pwd/forgot-pwd';
 import ResultPage from './components/pages/result/result-page';
+import PrevResults from './components/pages/prev-results';
 function App() {
   return (
     <Router>
@@ -12,6 +13,7 @@ function App() {
         <Route exact path="/login" component={Login} />
         <Route path="/login/forgot" component={ForgotPwd} />
         <Route path="/result/:sem/:roll" component={ResultPage} />
+        <Route path="/result/prev" component={PrevResults} />
       </Switch>
     </Router>
   );

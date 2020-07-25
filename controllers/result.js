@@ -48,3 +48,47 @@ exports.addResult = (req, res) => {
       res.status(400).json({msg: 'unable to save result'});
     });
 };
+
+exports.getAllResuts = async (req, res) => {
+  const {roll} = req.params;
+  // Student.findOne({roll: roll})
+  //   .then(std => {
+  //     if (std.public && req.user.id == std._id) {
+  //       Result.find({studentRoll: roll})
+  //         .then(results => {
+  //           if (results.length > 0) {
+  //             res.json({results});
+  //           } else {
+  //             res.status(500).json({msg: `No results found for Roll No.  ${roll}`});
+  //           }
+  //         })
+  //         .catch(err => {
+  //           console.log(err);
+  //           res.status(500).json({msg: 'Something went wrong'});
+  //         });
+  //     } else {
+  //       res.json({msg: 'Results not found. Inavlid roll'});
+  //     }
+  //   })
+  //   .catch(err => {
+  //     console.log(err.message);
+  //     res.status(400).json({msg: 'student not find'});
+  //   });
+  // get current logged in user
+  const student = await Student.findOne({roll: roll});
+
+  if (!student) return res.status(500).json({msg: 'Student not found.'});
+  // logged in student == requesting roll no student
+  else if (student._id == req.user.id) {
+    // find the result of the student
+    Result.find({studentRoll: roll})
+      .then(results => {
+        // console.log(results)
+        if (results.length < 1) return res.json({msg: 'Result not found'});
+        return res.json(results);
+      })
+      .catch(err => res.json({msg: err.message}));
+  } else {
+    res.status(500).json({msg: 'You are not currently authorized for this request'});
+  }
+};

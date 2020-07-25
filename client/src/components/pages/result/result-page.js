@@ -79,8 +79,9 @@ function ResultPage(props) {
             <Marksheet {...props} />
           </div>
         </Content>
+
         <Button className="btn-prev-result" type="primary" size="large">
-          Previous Result
+          <Link to="/result/prev">Previous Result</Link>
         </Button>
         <Footer style={{textAlign: 'center'}}>
           Cybernauts &copy; Web Development Club IIIT Una
