@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../middlewares/auth');
+const {auth, adminAuth} = require('../middlewares/auth');
 const {getResult, addResult, getAllResuts} = require('../controllers/result');
 
 /*
@@ -15,6 +15,6 @@ router.get('/:sem/:roll', auth, getResult);
 
 //@ result POST
 //@ adding result for a student
-router.post('/:sem/add', auth, addResult);
+router.post('/:sem/add', adminAuth, addResult);
 
 module.exports = router;
