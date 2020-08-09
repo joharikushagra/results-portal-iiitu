@@ -23,9 +23,9 @@ exports.getResult = async (req, res) => {
 };
 
 exports.addResult = (req, res) => {
-  const {subjects, cgpa, sgpa} = req.body;
-  const roll = req.params.roll;
-  const semester = req.params.sem;
+  const {roll, sgpa, cgpa, semester, subjects} = req.body;
+  // const roll = req.params.roll;
+  // const semester = req.params.sem;
 
   if (!subjects || !cgpa || !sgpa || !roll || !semester)
     return res.status(400).json({msg: 'please fill up all the result fields'});
@@ -41,7 +41,7 @@ exports.addResult = (req, res) => {
   newResult
     .save()
     .then(result => {
-      res.json(result);
+      res.status(200).json(result);
     })
     .catch(err => {
       console.log(err);

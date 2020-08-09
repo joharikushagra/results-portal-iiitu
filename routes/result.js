@@ -15,6 +15,6 @@ router.get('/:sem/:roll', auth, getResult);
 
 //@ result POST
 //@ adding result for a student
-router.post('/:sem/:roll', auth, addResult);
+router.post('/:sem/add', auth, addResult);
 
 module.exports = router;

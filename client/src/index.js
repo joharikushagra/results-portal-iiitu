@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import StoreProvider from './Context/Store';
+import AuthProvider from './Context/Auth';
 import 'antd/dist/antd.css';
 import './index.css';
 import App from './App';
 
 ReactDOM.render(
-  <StoreProvider>
+  <AuthProvider>
     <App />
-  </StoreProvider>,
+  </AuthProvider>,
   document.getElementById('root'),
 );

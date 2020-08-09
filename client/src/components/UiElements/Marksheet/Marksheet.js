@@ -63,13 +63,13 @@ function Marksheet(props) {
         <table>
           <tbody>
             <tr>
-              <th>Sub Code</th>
+              {/* <th>Sub Code</th> */}
               <th>Sub Names</th>
               <th>Grade</th>
             </tr>
             {
               <tr>
-                <td></td>
+                {/* <td></td> */}
                 <td>{error}</td>
                 <td></td>
               </tr>
@@ -77,14 +77,14 @@ function Marksheet(props) {
             {result.subjects.map((sub, i) => {
               return (
                 <tr key={i}>
-                  <td>{sub.subCode}</td>
+                  {/* <td>{sub.subCode}</td> */}
                   <td>{sub.subName}</td>
                   <td>{sub.subGrade}</td>
                 </tr>
               );
             })}
             <tr>
-              <td></td>
+              {/* <td></td> */}
               <td></td>
               <td>
                 <br />

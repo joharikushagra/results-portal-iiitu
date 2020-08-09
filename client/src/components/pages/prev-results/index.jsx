@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Layout, List, Typography, Divider, Skeleton, Button} from 'antd';
+import {Layout, List, Typography, Divider} from 'antd';
 import {Link} from 'react-router-dom';
 import Header from '../../UiElements/Header';
 import Axios from 'axios';
@@ -8,12 +8,14 @@ const {Content} = Layout;
 
 export default function PrevResults({history}) {
   const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
     const std = JSON.parse(localStorage.getItem('student'));
     const token = localStorage.getItem('auth-token');
-
+    if(!std){
+      history.push('/');
+    }
     Axios({
       url: `/api/result/getAll/${std.roll}`,
       method: 'get',
@@ -21,11 +23,11 @@ export default function PrevResults({history}) {
     })
       .then(res => {
         setResults(res.data);
-        setLoading(false);
+        // setLoading(false);
       })
       .catch(err => {
         console.log(err);
-        setLoading(false);
+        // setLoading(false);
       });
 
     return () => {
@@ -34,10 +36,12 @@ export default function PrevResults({history}) {
   }, []);
   return (
     <div>
-      <Header />
+      <Header history={history} />
       <Content style={{padding: '0 50px', textAlign: 'center'}}>
         <div className="site-layout-content">
-          <Typography.Title level={3}>All Previous Results</Typography.Title>
+          <Typography.Title level={3}>Home Dashboard</Typography.Title>
+          <hr/>
+          <Typography.Title level={4}>All Results</Typography.Title>
           <Divider dashed />
           {/* <Skeleton loading={loading}> */}
             <List
@@ -58,17 +62,6 @@ export default function PrevResults({history}) {
             />
           {/* </Skeleton> */}
           <br />
-          <Button
-            size="large"
-            style={{width: '200px', margin: 'auto'}}
-            type="ghost"
-            onClick={e => {
-              e.preventDefault();
-              history.goBack();
-            }}
-          >
-            Back
-          </Button>
         </div>
       </Content>
     </div>
