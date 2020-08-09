@@ -1,24 +1,26 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import axios from 'axios';
 import './login.css';
 import {Typography, Form, Input, Button, notification} from 'antd';
 import {UserOutlined, LockOutlined} from '@ant-design/icons';
 import logoHead from '../../../images/downloaded2.png';
+import {AuthContext} from '../../../Context/Auth';
 
 const NormalLoginForm = props => {
+  const auth = useContext(AuthContext);
   const onFinish = values => {
-    // console.log('Received values of form: ', values);
     axios
       .post('/api/student/login/', {email: values.username, password: values.password})
       .then(res => {
-        // console.log(res.data)
         if (res.data.token) {
-          props.history.replace(`/result/2/${res.data.student.roll}`);
           localStorage.setItem('auth-token', res.data.token);
           localStorage.setItem('student', JSON.stringify(res.data.student));
+          auth.setIsAuthenticated(true);
+          props.history.replace(`/result/prev`);
         }
       })
       .catch(err => {
+        console.log(err);
         notification['error']({
           message: 'Authentication Failed',
           description: 'INVALID CREDENTIALS',

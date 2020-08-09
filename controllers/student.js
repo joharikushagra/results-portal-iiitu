@@ -1,8 +1,11 @@
 const Student = require('../models/Student');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
+const csv = require('fast-csv');
 const auth = require('../middlewares/auth');
+const fs = require('fs');
+
+// let inputStream = fs.createReadStream('../studentDataCSV/Book2.csv', 'utf8');
 
 exports.getStudent = (req, res) => {
   Student.findOne({roll: req.params.roll})
@@ -93,3 +96,55 @@ exports.login = (req, res) => {
     })
     .catch(err => res.status(400).json({msg: 'invalid Credential'}));
 };
+
+exports.addStudent = (req, res) => {
+  const {name, branch, roll, email, password} = req.body;
+  if (!name || !branch || !roll || !email || !password) {
+    return res.status(400).json({msg: 'some student details are missing'});
+  }
+  const newStudent = new Student({
+    name,
+    branch,
+    roll,
+    email,
+    password,
+  });
+
+  //hashing password
+  bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.hash(newStudent.password, salt, (err, hash) => {
+      newStudent.password = hash;
+      newStudent
+        .save()
+        .then(() => res.status(200).json({msg: 'students data successfully added'}))
+        .catch(err => res.status(400).json({msg: 'some problem in uploading student data'}));
+    });
+  });
+};
+
+// exports.addStudent = (req, res) => {
+//   let csvStream = csv
+//     .parseFile('Book2.csv', {headers: true})
+//     .on('data', record => {
+//       csvStream.pause();
+//       const newStudent = new Student({
+//         name: record.name,
+//         branch: record.branch,
+//         roll: record.roll,
+//         email: record.email,
+//         password: record.password,
+//       });
+
+//       //hashing password
+//       bcrypt.genSalt(10, (err, salt) => {
+//         bcrypt.hash(newStudent.password, salt, (err, hash) => {
+//           newStudent.password = hash;
+//           newStudent
+//             .save()
+//             .then(() => res.status(200).json({msg: 'students data successfully added'}))
+//             .catch(err => res.status(400).json({msg: 'some problem in uploading student data'}));
+//         });
+//       });
+//       csvStream.resume();
+//     });
+// };
