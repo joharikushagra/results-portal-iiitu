@@ -78,8 +78,12 @@ function Marksheet(props) {
               return (
                 <tr key={i}>
                   {/* <td>{sub.subCode}</td> */}
-                  <td>{sub.subName}</td>
-                  <td>{sub.subGrade}</td>
+                  <td>
+                    {sub.subName.split('_').map((s, i) => (
+                      <span key={i}>{s.toUpperCase()} </span>
+                    ))}
+                  </td>
+                  <td>{sub.subGrade.toUpperCase()}</td>
                 </tr>
               );
             })}

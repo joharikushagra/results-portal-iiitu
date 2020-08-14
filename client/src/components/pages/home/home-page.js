@@ -2,7 +2,7 @@ import React from 'react';
 import {Row, Col, Button} from 'antd';
 import './home-page.css';
 import image from '../../../images/5269.jpg';
-import logo from '../../../images/downloaded2.png';
+import logo from '../../../images/home.png';
 import {Typography} from 'antd';
 
 function HomePage() {

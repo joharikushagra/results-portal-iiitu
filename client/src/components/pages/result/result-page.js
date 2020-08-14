@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './result-page.css';
-import {Layout, Switch} from 'antd';
+import {Layout} from 'antd';
 
 import Marksheet from '../../UiElements/Marksheet/Marksheet';
 import Header from '../../UiElements/Header';

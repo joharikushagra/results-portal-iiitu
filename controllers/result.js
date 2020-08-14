@@ -22,6 +22,25 @@ exports.getResult = async (req, res) => {
   }
 };
 
+exports.getResultFromAdmin = async (req, res) => {
+  const {roll, sem} = req.params;
+  // get current logged in user
+  const student = await Student.findOne({roll: roll});
+
+  if (!student) return res.status(500).json({msg: 'Student not found.'});
+  // logged in student == requesting roll no student
+  else {
+    // find the result of the student
+    Result.find({studentRoll: roll})
+      .then(results => {
+        // console.log(results)
+        if (results.length < 1) return res.json({msg: 'Result not found'});
+        results.map(result => (result.semester === sem ? res.json(result) : false));
+      })
+      .catch(err => res.json({msg: err.message}));
+  }
+};
+
 exports.addResult = (req, res) => {
   const {roll, sgpa, cgpa, semester, subjects} = req.body;
   // const roll = req.params.roll;

@@ -2,9 +2,9 @@ table{
     text-align: center;
     border-collapse: collapse;
     width: 100%;
-    color:#C2C1C1;
+    color:#757574;
  
-    font-family: 50px;
+    font-size: 14px;
 }
 div{
     font-family: montserrat;
@@ -15,4 +15,10 @@ p{
 }
 td{
     width: 100px;
+}
+h3{
+    font-weight: 800;
+}
+h4{
+    font-weight: 700;
 }

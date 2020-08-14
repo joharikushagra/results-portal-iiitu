@@ -5,7 +5,7 @@ import { AuthContext } from '../../../Context/Auth';
 import homeImage from '../../../images/icons8-home-26.png';
 import { Link } from 'react-router-dom';
 const {Header} = Layout;
-const {Search} = Input;
+
 
 
 
@@ -40,19 +40,12 @@ export default function CustomHeader({searchDisplay = false,  history}) {
       <img src={logo} id="navbar-logo" alt="IIIT UNA" />
     </div>
     <div className="nav-links">
-      {searchDisplay && (
-        <Search
-          placeholder="input search text"
-          onSearch={value => console.log(value)}
-          style={{marginRight: '10px'}}
-        />
-      )}
       <Link to='/result/prev'>
       <img src={homeImage} style={{marginRight:'15px'}}/>
       </Link>
       <Dropdown placement="bottomCenter" overlay={logout}>
       
-          <Avatar size={40} style={{backgroundColor: '#3726A6'}}>
+          <Avatar size={40} style={{backgroundColor: '#3726A6',cursor:'pointer'}}>
             {student.name[0]}
             {student.name.split(' ')[1] ? student.name.split(' ')[1][0] : ''}
           </Avatar>

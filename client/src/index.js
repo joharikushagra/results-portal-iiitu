@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import AuthProvider from './Context/Auth';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.compact.css';
 import './index.css';
 import App from './App';
 
