@@ -4,8 +4,20 @@ const jwt = require('jsonwebtoken');
 const csv = require('fast-csv');
 const auth = require('../middlewares/auth');
 const fs = require('fs');
+const emailBody = require('../Email.template');
+const nodemailer = require('nodemailer');
 
 // let inputStream = fs.createReadStream('../studentDataCSV/Book2.csv', 'utf8');
+
+// Nodemailer config
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
+const transporter = nodemailer.createTransport({
+  service: process.env.NM_SERVICE,
+  auth: {
+    user: process.env.NM_FROM,
+    pass: process.env.NM_PASSWORD,
+  },
+});
 
 exports.getStudent = (req, res) => {
   Student.findOne({roll: req.params.roll})
@@ -116,7 +128,25 @@ exports.addStudent = (req, res) => {
       newStudent.password = hash;
       newStudent
         .save()
-        .then(() => res.status(200).json({msg: 'students data successfully added'}))
+        .then(std => {
+          // Email
+          const mailOptions = {
+            from: 'pkspyder007@gmail.com', // sender address
+            to: std.email, // list of receivers
+            subject: 'Results Portal username password', // Subject line
+            html: emailBody(std.email, password, std.name),
+          };
+
+          transporter.sendMail(mailOptions, (err, info) => {
+            if (err) console.log('email err: ', err);
+            else {
+              console.log('email sent...');
+            }
+          });
+
+          // Email end
+          return res.status(200).json({msg: 'students data successfully added'});
+        })
         .catch(err => res.status(400).json({msg: 'some problem in uploading student data'}));
     });
   });
